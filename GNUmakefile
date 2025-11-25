@@ -18,7 +18,7 @@ endif
 
 LD := $(TOOLCHAIN_PREFIX)ld
 
-ifeq ($(TOOLCHAIN), llvm)
+ifeq ($(TOOLCHAIN),llvm)
 	CC := clang
 	LD := ld.lld
 endif
@@ -65,7 +65,7 @@ override CPPFLAGS := \
 
 override NASMFLAGS := \
 	-f elf64 \
-	$(patsubst -g,-g -F dwarf,$(NASNFLAGS)) \
+	$(patsubst -g,-g -F dwarf,$(NASMFLAGS)) \
 	-Wall
 
 override LDFLAGS += \
@@ -107,6 +107,3 @@ obj/%.asm.o: %.asm GNUmakefile
 .PHONY: clean
 clean:
 	rm -rf bin obj
-
-
-
