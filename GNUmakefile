@@ -22,7 +22,7 @@ endif
 # User controllable Linker command
 LD := $(TOOLCHAIN_PREFIX)ld
 
-# Defaults overrides for variables if using "llvm" as toolchain
+# Defaults overrides for variables if using "LLvm" as toolchain
 ifeq ($(TOOLCHAIN),llvm)
 	CC := clang
 	LD := ld.lld
@@ -30,7 +30,7 @@ endif
 
 # Build variables
 KERNEL_DIR := kernel
-BOOTLOADER_DIR := bootloader/limine
+BOOTLOADER_DIR := bootloader
 ISO_DIR := iso_root
 ISO := mangoOS-x86_64.iso
 LINKER_SCRIPT := linker.lds
@@ -138,6 +138,7 @@ obj/%.S.o: %.S GNUmakefile
 obj/%.asm.o: %.asm GNUmakefile
 	mkdir -p "$(dir $@)"
 	nasm $(NASMFLAGS) $< -o $@
+
 # -------------------------------------------------------------------------
 
 # ISO generation
@@ -147,14 +148,14 @@ iso: bin/$(OUTPUT)
 
 	mkdir -p $(ISO_DIR)/boot/limine
 	cp -v $(BOOTLOADER_DIR)/limine.conf \
-	      $(BOOTLOADER_DIR)/limine-bios.sys \
-	      $(BOOTLOADER_DIR)/limine-bios-cd.bin \
-	      $(BOOTLOADER_DIR)/limine-uefi-cd.bin \
+	      $(BOOTLOADER_DIR)/limine/limine-bios.sys \
+	      $(BOOTLOADER_DIR)/limine/limine-bios-cd.bin \
+	      $(BOOTLOADER_DIR)/limine/limine-uefi-cd.bin \
 	      $(ISO_DIR)/boot/limine/
 
 	mkdir -p $(ISO_DIR)/EFI/BOOT
-	cp -v $(BOOTLOADER_DIR)/BOOTX64.EFI $(ISO_DIR)/EFI/BOOT/
-	cp -v $(BOOTLOADER_DIR)/BOOTIA32.EFI $(ISO_DIR)/EFI/BOOT/
+	cp -v $(BOOTLOADER_DIR)/limine/BOOTX64.EFI $(ISO_DIR)/EFI/BOOT/
+	cp -v $(BOOTLOADER_DIR)/limine/BOOTIA32.EFI $(ISO_DIR)/EFI/BOOT/
 
 	xorriso -as mkisofs -R -r -J \
 		-b boot/limine/limine-bios-cd.bin \
@@ -163,7 +164,7 @@ iso: bin/$(OUTPUT)
 		-efi-boot-part --efi-boot-image --protective-msdos-label \
 		$(ISO_DIR) -o $(ISO)
 
-	$(BOOTLOADER_DIR)/limine bios-install $(ISO)
+	$(BOOTLOADER_DIR)/limine/limine bios-install $(ISO)
 
 # Run with QEMU
 run: iso
@@ -172,4 +173,4 @@ run: iso
 clean:
 	rm -rf obj bin $(ISO_DIR) $(ISO)
 
-.PHONY: iso run clean all 
+.PHONY: iso run clean all
