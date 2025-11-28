@@ -1,4 +1,4 @@
-#include "../include/mem.h"
+#include "mem.h"
 
 // GCC and Clang need memcpy and memset and memmove and memcmp for their optimizations
 // ie) instead of for loops they use memcpy and memset
