@@ -83,6 +83,7 @@ override CFLAGS += \
 override CPPFLAGS := \
 	-I kernel \
 	-I kernel/include \
+	-I kernel/libc/include \
 	-I bootloader/limine-protocol/include \
 	$(CPPFLAGS) \
 	-MMD \

@@ -2,6 +2,8 @@
 #include <limine.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include "drivers/serial.h"
+#include <printf.h>
 
 // DO NOT CHANGE -- PLEASE CONSULT BEFORE CHANGING ------------------------------------
 
@@ -47,6 +49,9 @@ static void hcf(void)
 
 void kmain(void)
 {
+    serial_init();
+    serial_printf("Hello from mangoOS!\n");
+
     // Ensures the bootloader actually understands our base revision
     if (LIMINE_BASE_REVISION_SUPPORTED(limine_base_revision) == false)
     {
