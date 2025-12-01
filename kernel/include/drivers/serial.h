@@ -1,8 +1,8 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 extern bool debug_on;
 
