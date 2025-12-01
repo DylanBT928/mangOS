@@ -2,7 +2,7 @@
 
 #include "stdio.h"
 
-bool debug_on = true;
+#include <stdarg.h>
 
 #define SERIAL_LOG_SIZE 8192
 #define COM1 0x3f8
@@ -77,4 +77,21 @@ void serial_clear_char()
     serial_write_char('\b');
     serial_write_char(' ');
     serial_write_char('\b');
+}
+
+void serial_printf(const char* fmt, ...) 
+{
+    char buff[1024];
+    va_list args;
+
+    va_start(args, fmt);
+    
+    // For vsnprintf() to work, we need to implement 
+    // --> int vsnprintf(char *str, size_t buff_size, const char *format, va_list argptr); 
+    // ourselves in separate stdio.h and stdio.c files
+    
+    vsnprintf(buff, sizeof(buff), fmt, args);
+    va_end(args);
+
+    serial_print(buff);
 }
