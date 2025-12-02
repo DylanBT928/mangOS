@@ -1,10 +1,10 @@
 #include <kernel.h>
 #include <limine.h>
-#include "libc/printf.h"
 #include <stdbool.h>
 #include <stddef.h>
 
 #include "drivers/serial.h"
+#include "libc/printf.h"
 
 // DO NOT CHANGE -- PLEASE CONSULT BEFORE CHANGING ------------------------------------
 

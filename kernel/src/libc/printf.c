@@ -34,17 +34,21 @@ static inline bool _is_digit(char ch)
 static unsigned int _atoi(const char** str)
 {
     unsigned int i = 0U;
+
     while (_is_digit(**str))
     {
         i = i * 10U + (unsigned int)(*((*str)++) - '0');
     }
+
     return i;
 }
 
 static inline unsigned int _strnlen_s(const char* str, size_t maxsize)
 {
     const char* s;
+
     for (s = str; *s && maxsize--; ++s);
+
     return (unsigned int)(s - str);
 }
 
@@ -84,8 +88,9 @@ static size_t _ntoa_format(out_fct_type out, char* buffer, size_t idx, size_t ma
     {
         if (width && (flags & FLAGS_ZEROPAD) && (negative || (flags & (FLAGS_PLUS | FLAGS_SPACE))))
         {
-            width--;
+            --width;
         }
+
         while ((flags & FLAGS_ZEROPAD) && (len < width) && (len < NTOA_BUFFER_SIZE))
         {
             buf[len++] = '0';
@@ -98,6 +103,7 @@ static size_t _ntoa_format(out_fct_type out, char* buffer, size_t idx, size_t ma
         {
             buf[len++] = (flags & FLAGS_UPPERCASE) ? 'X' : 'x';
         }
+
         if (len < NTOA_BUFFER_SIZE)
         {
             buf[len++] = '0';
@@ -137,16 +143,16 @@ static size_t _ntoa_long(out_fct_type out, char* buffer, size_t idx, size_t maxl
 
     if (value)
     {
-        do
+        while (value && (len < NTOA_BUFFER_SIZE));
         {
             const char digit = (char)(value % base);
+
             buf[len++] = digit < 10 ? '0' + digit : (flags & FLAGS_UPPERCASE ? 'A' : 'a') + digit - 10;
             value /= base;
-        } while (value && (len < NTOA_BUFFER_SIZE));
+        }
     }
 
-    return _ntoa_format(out, buffer, idx, maxlen, buf, len, negative,
-                        (unsigned int)base, width, flags);
+    return _ntoa_format(out, buffer, idx, maxlen, buf, len, negative, (unsigned int)base, width, flags);
 }
 
 static size_t _ntoa_long_long(out_fct_type out, char* buffer, size_t idx, size_t maxlen,
@@ -163,20 +169,19 @@ static size_t _ntoa_long_long(out_fct_type out, char* buffer, size_t idx, size_t
 
     if (value)
     {
-        do
+        while (value && (len < NTOA_BUFFER_SIZE));
         {
             const char digit = (char)(value % base);
+
             buf[len++] = digit < 10 ? '0' + digit : (flags & FLAGS_UPPERCASE ? 'A' : 'a') + digit - 10;
             value /= base;
-        } while (value && (len < NTOA_BUFFER_SIZE));
+        }
     }
 
-    return _ntoa_format(out, buffer, idx, maxlen, buf, len, negative,
-                        (unsigned int)base, width, flags);
+    return _ntoa_format(out, buffer, idx, maxlen, buf, len, negative, (unsigned int)base, width, flags);
 }
 
-static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
-                      const char* format, va_list va)
+static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const char* format, va_list va)
 {
     unsigned int flags, width, n;
     size_t idx = 0U;
@@ -186,47 +191,64 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
         if (*format != '%')
         {
             out(*format, buffer, idx++, maxlen);
-            format++;
+            ++format;
             continue;
         }
 
-        format++;
-
+        ++format;
         flags = 0U;
-        do
+
+        while (n);
         {
             switch (*format)
             {
                 case '0':
+                {
                     flags |= FLAGS_ZEROPAD;
-                    format++;
+                    ++format;
                     n = 1U;
                     break;
+                }
+
                 case '-':
+                {
                     flags |= FLAGS_LEFT;
-                    format++;
+                    ++format;
                     n = 1U;
                     break;
+                }
+
                 case '+':
+                {
                     flags |= FLAGS_PLUS;
-                    format++;
+                    ++format;
                     n = 1U;
                     break;
+                }
+
                 case ' ':
+                {
                     flags |= FLAGS_SPACE;
-                    format++;
+                    ++format;
                     n = 1U;
                     break;
+                }
+
                 case '#':
+                {
                     flags |= FLAGS_HASH;
-                    format++;
+                    ++format;
                     n = 1U;
                     break;
+                }
+
                 default:
+                {
                     n = 0U;
                     break;
+                }
             }
-        } while (n);
+        }
 
         width = 0U;
 
@@ -238,20 +260,30 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
         switch (*format)
         {
             case 'l':
+            {
                 flags |= FLAGS_LONG;
-                format++;
+                ++format;
+
                 if (*format == 'l')
                 {
                     flags |= FLAGS_LONG_LONG;
-                    format++;
+                    ++format;
                 }
+
                 break;
+            }
+
             case 'z':
+            {
                 flags |= (sizeof(size_t) == sizeof(long) ? FLAGS_LONG : FLAGS_LONG_LONG);
-                format++;
+                ++format;
                 break;
+            }
+
             default:
+            {
                 break;
+            }
         }
 
         switch (*format)
@@ -263,6 +295,7 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
             case 'X':
             {
                 unsigned int base;
+
                 if (*format == 'x' || *format == 'X')
                 {
                     base = 16U;
@@ -328,7 +361,8 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
                                          false, base, width, flags);
                     }
                 }
-                format++;
+
+                ++format;
                 break;
             }
 
@@ -353,15 +387,20 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
                         out(' ', buffer, idx++, maxlen);
                     }
                 }
-                format++;
+
+                ++format;
                 break;
             }
 
             case 's':
             {
                 const char* p = va_arg(va, char*);
+
                 if (!p)
+                {
                     p = "(null)";
+                }
+
                 unsigned int l = _strnlen_s(p, (size_t)-1);
 
                 if (!(flags & FLAGS_LEFT))
@@ -384,7 +423,8 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
                         out(' ', buffer, idx++, maxlen);
                     }
                 }
-                format++;
+
+                ++format;
                 break;
             }
 
@@ -392,7 +432,9 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
             {
                 width = sizeof(void*) * 2U;
                 flags |= FLAGS_ZEROPAD | FLAGS_UPPERCASE;
+
                 const bool is_ll = sizeof(uintptr_t) == sizeof(long long);
+
                 if (is_ll)
                 {
                     idx = _ntoa_long_long(out, buffer, idx, maxlen,
@@ -405,19 +447,24 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen,
                                      (unsigned long)((uintptr_t)va_arg(va, void*)),
                                      false, 16U, width, flags);
                 }
-                format++;
+
+                ++format;
                 break;
             }
 
             case '%':
+            {
                 out('%', buffer, idx++, maxlen);
-                format++;
+                ++format;
                 break;
+            }
 
             default:
+            {
                 out(*format, buffer, idx++, maxlen);
-                format++;
+                ++format;
                 break;
+            }
         }
     }
 

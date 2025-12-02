@@ -35,6 +35,7 @@ char* serial_get_log()
     {
         serial_log_index = SERIAL_LOG_SIZE - 1;
     }
+
     serial_log[serial_log_index] = '\0';
     return serial_log;
 }
@@ -62,6 +63,7 @@ void serial_init()
 void serial_write_char(char c)
 {
     while (!is_transmit_empty());
+
     outb(COM1, c);
 
     if (serial_log_index < SERIAL_LOG_SIZE - 1)
@@ -73,7 +75,10 @@ void serial_write_char(char c)
 
 void serial_print(const char* str)
 {
-    while (*str) serial_write_char(*str++);
+    while (*str)
+    {
+        serial_write_char(*str++);
+    }
 }
 
 void serial_clear_char()
