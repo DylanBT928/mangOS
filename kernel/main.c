@@ -57,6 +57,7 @@ void kmain(void)
     if (LIMINE_BASE_REVISION_SUPPORTED(limine_base_revision) == false)
     {
         // error-catching (crashing our os if it doesnt work lol)
+        serial_printf("error: unsupported Limine base revision");
         hcf();
     }
 
@@ -64,6 +65,7 @@ void kmain(void)
     if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1)
     {
         // error-catching
+        serial_printf("error: framebuffer request failed");
         hcf();
     }
 
