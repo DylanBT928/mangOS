@@ -2,9 +2,10 @@ bin/
 iso_root/
 obj/
 
+.vscode/
+
 *.iso
 *.DS_Store
 
-.vscode
 
 bootloader/limine/limine.dSYM

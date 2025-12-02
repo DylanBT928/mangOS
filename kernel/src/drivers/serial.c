@@ -1,8 +1,10 @@
 #include "drivers/serial.h"
-#include <printf.h>
+
 #include <stdarg.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
+
+#include "libc/printf.h"
 
 #define SERIAL_LOG_SIZE 8192
 #define COM1 0x3f8
@@ -29,7 +31,7 @@ static inline bool is_transmit_empty()
 
 char* serial_get_log()
 {
-    if (serial_log_index >= SERIAL_LOG_SIZE) 
+    if (serial_log_index >= SERIAL_LOG_SIZE)
     {
         serial_log_index = SERIAL_LOG_SIZE - 1;
     }
@@ -81,7 +83,7 @@ void serial_clear_char()
     serial_write_char('\b');
 }
 
-void serial_printf(const char* fmt, ...) 
+void serial_printf(const char* fmt, ...)
 {
     char buff[1024];
     va_list args;
