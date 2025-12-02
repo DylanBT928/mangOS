@@ -143,7 +143,7 @@ static size_t _ntoa_long(out_fct_type out, char* buffer, size_t idx, size_t maxl
 
     if (value)
     {
-        while (value && (len < NTOA_BUFFER_SIZE));
+        while (value && (len < NTOA_BUFFER_SIZE))
         {
             const char digit = (char)(value % base);
 
@@ -169,7 +169,7 @@ static size_t _ntoa_long_long(out_fct_type out, char* buffer, size_t idx, size_t
 
     if (value)
     {
-        while (value && (len < NTOA_BUFFER_SIZE));
+        while (value && (len < NTOA_BUFFER_SIZE))
         {
             const char digit = (char)(value % base);
 
@@ -198,7 +198,7 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
         ++format;
         flags = 0U;
 
-        while (n);
+        while (n)
         {
             switch (*format)
             {
