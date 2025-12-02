@@ -169,10 +169,13 @@ iso: bin/$(OUTPUT)
 	$(BOOTLOADER_DIR)/limine/limine bios-install $(ISO)
 
 # Run with QEMU
-run: iso
+run:
 	qemu-system-x86_64 -cdrom $(ISO)
+
+run-serial:
+	qemu-system-x86_64 -cdrom $(ISO) -serial stdio
 
 clean:
 	rm -rf obj bin $(ISO_DIR) $(ISO)
 
-.PHONY: iso run clean all
+.PHONY: iso run run-serial clean all
