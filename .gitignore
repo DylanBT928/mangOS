@@ -6,3 +6,5 @@ obj/
 *.DS_Store
 
 .vscode
+
+bootloader/limine/limine.dSYM
