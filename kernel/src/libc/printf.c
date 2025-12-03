@@ -56,7 +56,7 @@ static size_t _out_rev(out_fct_type out, char* buffer, size_t idx, size_t maxlen
 {
     const size_t start_idx = idx;
 
-    if (!(flags & FLAGS_LEFT) && !(flags & FLAGS_ZEROPAD))
+    if (!(flags & (FLAGS_LEFT | FLAGS_ZEROPAD)))
     {
         for (size_t i = len; i < width; i++)
         {
@@ -140,8 +140,7 @@ static size_t _ntoa_long(out_fct_type out, char* buffer, size_t idx, size_t maxl
     {
         flags &= ~FLAGS_HASH;
     }
-
-    if (value)
+    else
     {
         while (value && (len < NTOA_BUFFER_SIZE))
         {
