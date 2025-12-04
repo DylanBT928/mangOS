@@ -70,7 +70,7 @@ void kmain(void)
     }
 
     // We fetch the first framebuffer (only one by default) check documentation
-    // for the struct layout request -> response -> framebuffer.
+    // for the struct layout request -> response -> framebuffer
     struct limine_framebuffer* fb = framebuffer_request.response->framebuffers[0];
 
     // We assume the framebuffer model is RGB and has 32-bit pixels
@@ -79,7 +79,7 @@ void kmain(void)
         // fb_ptr points to start of frame buffer memory
         volatile uint32_t* fb_ptr = fb->address;
         // Pitch is how many bytes of VRAM you should skip to go one pixel down
-        // i * pitch/4 determinds the offset on the next line and + i moves horizontal
+        // i * pitch/4 determines the offset on the next line and + i moves horizontal
         // This should make a white diagnal line
         fb_ptr[i * (fb->pitch / 4) + i] = 0xffffff;
     }
