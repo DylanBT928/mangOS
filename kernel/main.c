@@ -3,6 +3,9 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include "drivers/serial.h"
+#include "libc/printf.h"
+
 // DO NOT CHANGE -- PLEASE CONSULT BEFORE CHANGING ------------------------------------
 
 // Sets the base revision to version number 4 to insure compatibility between kernal
@@ -47,10 +50,14 @@ static void hcf(void)
 
 void kmain(void)
 {
+    serial_init();
+    serial_printf("Hello from mangoOS!\n");
+
     // Ensures the bootloader actually understands our base revision
     if (LIMINE_BASE_REVISION_SUPPORTED(limine_base_revision) == false)
     {
         // error-catching (crashing our os if it doesnt work lol)
+        serial_printf("error: unsupported Limine base revision");
         hcf();
     }
 
@@ -58,11 +65,12 @@ void kmain(void)
     if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1)
     {
         // error-catching
+        serial_printf("error: framebuffer request failed");
         hcf();
     }
 
     // We fetch the first framebuffer (only one by default) check documentation
-    // for the struct layout request -> response -> framebuffer.
+    // for the struct layout request -> response -> framebuffer
     struct limine_framebuffer* fb = framebuffer_request.response->framebuffers[0];
 
     // We assume the framebuffer model is RGB and has 32-bit pixels
@@ -71,7 +79,7 @@ void kmain(void)
         // fb_ptr points to start of frame buffer memory
         volatile uint32_t* fb_ptr = fb->address;
         // Pitch is how many bytes of VRAM you should skip to go one pixel down
-        // i * pitch/4 determinds the offset on the next line and + i moves horizontal
+        // i * pitch/4 determines the offset on the next line and + i moves horizontal
         // This should make a white diagnal line
         fb_ptr[i * (fb->pitch / 4) + i] = 0xffffff;
     }
