@@ -7,6 +7,7 @@
 #include <stdint.h>
 
 #include "drivers/serial.h"
+#include "font.h"
 
 // DO NOT CHANGE -- PLEASE CONSULT BEFORE CHANGING ------------------------------------
 
@@ -29,6 +30,9 @@ __attribute__((used, section(".limine_requests"))) static volatile struct limine
 // these can be moved anywhere, but just dont they work right now
 __attribute__((used, section(".limine_requests_start"))) static volatile uint64_t limine__requests_start_marker[] = LIMINE_REQUESTS_START_MARKER;
 __attribute__((used, section(".limine_requests_end"))) static volatile uint64_t limine__requests_end_marker[] = LIMINE_REQUESTS_END_MARKER;
+
+// Store the active framebuffer info
+static struct limine_framebuffer* fb = NULL;
 
 // Halt and catch fire
 // This function leads to a complete system crash, calling inline "HALT" infinite times
@@ -53,8 +57,7 @@ void framebuffer_init(void)
     }
 
     // Ensures our framebuffer works
-    if (framebuffer_request.response == NULL ||
-        framebuffer_request.response->framebuffer_count < 1)
+    if (framebuffer_request.response == NULL || framebuffer_request.response->framebuffer_count < 1)
     {
         serial_printf("error: framebuffer request failed");
         hcf();
@@ -62,21 +65,21 @@ void framebuffer_init(void)
 
     // We fetch the first framebuffer (only one by default) check documentation
     // for the struct layout request -> response -> framebuffer
-    struct limine_framebuffer* fb = framebuffer_request.response->framebuffers[0];
-
-    for (size_t i = 0; i < 100; i++)
-    {
-        // fb_ptr points to start of frame buffer memory
-        volatile uint32_t* fb_ptr = fb->address;
-        // Pitch is how many bytes of VRAM you should skip to go one pixel down
-        // i * pitch/4 determines the offset on the next line and + i moves horizontal
-        // This should make a white diagnal line
-        fb_ptr[i * (fb->pitch / 4) + i] = 0xffffff;
-    }
+    fb = framebuffer_request.response->framebuffers[0];
 }
 
 void fb_put_pixel(int x, int y, uint32_t color)
 {
+    // Check if fb is initialized to avoid null pointer dereference
+    if (fb == NULL)
+    {
+        return;
+    }
+
+    uint64_t offset = y * fb->pitch + x * (fb->bpp / 8);
+    uint32_t* pixel_addr = (uint32_t*)((uint8_t*)fb->address + offset);
+
+    *pixel_addr = color;
 }
 
 void fb_clear(uint32_t color)
