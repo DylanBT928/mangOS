@@ -9,13 +9,14 @@
 // DO NOT CHANGE -- PLEASE CONSULT BEFORE CHANGING ------------------------------------
 
 // Sets the base revision to version number 4 to insure compatibility between kernal
-// and the bootloader. Will help to overcome shortcomings of older boot protocals and
+// and the bootloader. Will help to overcome shortcomings of older boot protocals and
 // provides good access to 64_bit long mode and other modern niceties
 // DO NOT CHANGE BASE REVISION: ALL OTHER VERSIONS ARE DEPRECATED OUR CODE WILL
 
 __attribute__((used, section(".limine_requests"))) static volatile uint64_t limine_base_revision[] = LIMINE_BASE_REVISION(4);
 
-// Most Limine requests should be made volatile so the compiler does not optimize them // away. They should also be accessed at least once or marked with "used" attribute
+// Most Limine requests should be made volatile so the compiler does not optimize them
+// away. They should also be accessed at least once or marked with "used" attribute
 // The framebuffer is a portion of ram that stores image data for video display, we
 // need this for any kind of image to be accessed
 
