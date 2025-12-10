@@ -16,7 +16,7 @@ void kmain(void)
 
     framebuffer_init();
 
-    fb_clear(0x8ACE00);
+    fb_clear(0x8ace00);
 
     hcf();
 }
