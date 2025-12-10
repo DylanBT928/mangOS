@@ -4,4 +4,6 @@
 #include "drivers/serial.h"
 #include "mem.h"
 
+void hcf(void);
+
 #endif
