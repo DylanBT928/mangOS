@@ -44,21 +44,30 @@ void hcf(void) {
 
 void framebuffer_init(void)
 {
+    // Ensures the bootloader actually understands our base revision
     if (!LIMINE_BASE_REVISION_SUPPORTED(limine_base_revision)) {
+        // error-catching (crashing our os if it doesnt work lol)
         serial_printf("error: unsupported Limine base revision");
         hcf();
     }
 
+    // Ensures our framebuffer works
     if (framebuffer_request.response == NULL ||
         framebuffer_request.response->framebuffer_count < 1) {
         serial_printf("error: framebuffer request failed");
         hcf();
     }
 
+    // We fetch the first framebuffer (only one by default) check documentation
+    // for the struct layout request -> response -> framebuffer
     struct limine_framebuffer* fb = framebuffer_request.response->framebuffers[0];
 
     for (size_t i = 0; i < 100; i++) {
+        // fb_ptr points to start of frame buffer memory
         volatile uint32_t* fb_ptr = fb->address;
+        // Pitch is how many bytes of VRAM you should skip to go one pixel down
+        // i * pitch/4 determines the offset on the next line and + i moves horizontal
+        // This should make a white diagnal line
         fb_ptr[i * (fb->pitch / 4) + i] = 0xffffff;
     }
 }
