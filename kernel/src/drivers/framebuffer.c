@@ -84,6 +84,18 @@ void fb_put_pixel(int x, int y, uint32_t color)
 
 void fb_clear(uint32_t color)
 {
+    if (fb == NULL)
+    {
+        return;
+    }
+
+    for (uint64_t y = 0; y < fb->height; ++y)
+    {
+        for (uint64_t x = 0; x < fb->width; ++x)
+        {
+            fb_put_pixel(x, y, color);
+        }
+    }
 }
 
 void fb_fill_rect(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint32_t color)

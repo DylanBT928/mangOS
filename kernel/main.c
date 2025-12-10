@@ -16,10 +16,7 @@ void kmain(void)
 
     framebuffer_init();
 
-    for (size_t i = 0; i < 100; i++)
-    {
-        fb_put_pixel(i, i, 0xffffff);
-    }
+    fb_clear(0x8ACE00);
 
     hcf();
 }
