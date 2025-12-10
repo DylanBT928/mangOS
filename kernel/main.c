@@ -16,17 +16,7 @@ void kmain(void)
 
     framebuffer_init();
 
-    fb_clear(0x8ace00);
-
-    fb_draw_char_transparent('m', 552, 370, 0x000000, 2);
-    fb_draw_char_transparent('a', 576, 370, 0x000000, 2);
-    fb_draw_char_transparent('n', 600, 370, 0x000000, 2);
-    fb_draw_char_transparent('g', 624, 370, 0x000000, 2);
-    fb_draw_char_transparent('o', 648, 370, 0x000000, 2);
-    fb_draw_char_transparent('O', 672, 370, 0x000000, 2);
-    fb_draw_char_transparent('S', 696, 370, 0x000000, 2);
-
-    fb_draw_string_transparent("Best Operating System", 464, 424, 0x000000, 2);
+    fb_draw_string_transparent("Welcome to MangoOS!", 0, 0, 0xffffff, 2);
 
     hcf();
 }
