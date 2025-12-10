@@ -112,14 +112,14 @@ void fb_draw_char(char c, int x, int y, uint32_t fg_color, uint32_t bg_color)
 
     int font_idx = (uint8_t)c;
 
-    for (int row = 0; row < 8; ++row) 
+    for (int row = 0; row < 8; ++row)
     {
         uint8_t bitmap_row = font8x8_basic[font_idx][row];
 
-        for (int col = 0; col < 8; ++col) 
+        for (int col = 0; col < 8; ++col)
         {
             bool pixel_set = (bitmap_row >> col) & 1;
-            
+
             if (pixel_set)
             {
                 fb_put_pixel(x + col, y + row, fg_color);
@@ -132,23 +132,23 @@ void fb_draw_char(char c, int x, int y, uint32_t fg_color, uint32_t bg_color)
     }
 }
 
-void fb_draw_char_transparent(char c, int x, int y, uint32_t color, int scale) 
+void fb_draw_char_transparent(char c, int x, int y, uint32_t color, int scale)
 {
-   if (fb == NULL)
+    if (fb == NULL)
     {
         return;
     }
 
     int font_idx = (uint8_t)c;
 
-    for (int row = 0; row < 8; ++row) 
+    for (int row = 0; row < 8; ++row)
     {
         uint8_t bitmap_row = font8x8_basic[font_idx][row];
 
-        for (int col = 0; col < 8; ++col) 
+        for (int col = 0; col < 8; ++col)
         {
             bool pixel_set = (bitmap_row >> col) & 1;
-            
+
             if (pixel_set)
             {
                 for (int scale_y = 0; scale_y < scale; ++scale_y)
@@ -160,10 +160,10 @@ void fb_draw_char_transparent(char c, int x, int y, uint32_t color, int scale)
                 }
             }
         }
-    } 
+    }
 }
 
-void fb_draw_string_transparent(const char *str, int x, int y, uint32_t color, int scale)
+void fb_draw_string_transparent(const char* str, int x, int y, uint32_t color, int scale)
 {
     if (fb == NULL || str == NULL)
     {
@@ -177,6 +177,6 @@ void fb_draw_string_transparent(const char *str, int x, int y, uint32_t color, i
     {
         fb_draw_char_transparent(*str, cursor_x, y, color, scale);
         cursor_x += char_width;
-        str++;
+        ++str;
     }
 }
