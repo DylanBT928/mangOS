@@ -90,17 +90,59 @@ void fb_clear(uint32_t color)
         return;
     }
 
+    uint8_t r = (color >> 16) & 0xFF;
+    uint8_t g = (color >> 8) & 0xFF;
+    uint8_t b = color & 0xFF;
+    
+    uint8_t bytes_per_pixel = fb->bpp / 8;
+    uint8_t *where = (uint8_t *)fb->address;
+
     for (uint64_t y = 0; y < fb->height; ++y)
     {
         for (uint64_t x = 0; x < fb->width; ++x)
         {
-            fb_put_pixel(x, y, color);
+            where[x * bytes_per_pixel] = b;
+            where[x * bytes_per_pixel + 1] = g;
+            where[x * bytes_per_pixel + 2] = r;
         }
+        where += fb->pitch;
     }
 }
 
 void fb_fill_rect(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint32_t color)
 {
+    if (fb == NULL)
+    {
+        return;
+    }
+
+    if (x + width > fb->width)
+    {
+        width = fb->width - x;
+    }
+
+    if (y + height > fb->height)
+    {
+        height = fb->height - y;
+    }
+
+    uint8_t r = (color >> 16) & 0xFF;
+    uint8_t g = (color >> 8) & 0xFF;
+    uint8_t b = color & 0xFF;
+
+    uint8_t bytes_per_pixel = fb->bpp / 8;
+    uint8_t *where = (uint8_t *)fb->address + (y * fb->pitch) + (x * bytes_per_pixel);
+
+    for (uint64_t row = 0; row < height; ++row)
+    {
+        for (uint64_t col = 0; col < width; ++col)
+        {
+            where[col * bytes_per_pixel] = b;
+            where[col * bytes_per_pixel + 1] = g;
+            where[col * bytes_per_pixel + 2] = r;
+        }
+        where += fb->pitch;
+    }
 }
 
 void fb_draw_char(char c, int x, int y, uint32_t fg_color, uint32_t bg_color)
@@ -115,7 +157,7 @@ void fb_draw_char(char c, int x, int y, uint32_t fg_color, uint32_t bg_color)
     for (int row = 0; row < 8; ++row)
     {
         uint8_t bitmap_row = font8x8_basic[font_idx][row];
-
+        
         for (int col = 0; col < 8; ++col)
         {
             bool pixel_set = (bitmap_row >> col) & 1;
