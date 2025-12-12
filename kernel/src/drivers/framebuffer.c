@@ -2,7 +2,6 @@
 
 #include <kernel.h>
 #include <limine.h>
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -167,9 +166,7 @@ void fb_draw_char(char c, int x, int y, uint32_t color, int scale)
 
         for (int col = 0; col < 8; ++col)
         {
-            bool pixel_set = (bitmap_row >> col) & 1;
-
-            if (pixel_set)
+            if ((bitmap_row >> col) & 1)
             {
                 for (int scale_y = 0; scale_y < scale; ++scale_y)
                 {
