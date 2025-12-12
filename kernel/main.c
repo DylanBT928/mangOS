@@ -16,15 +16,9 @@ void kmain(void)
 
     framebuffer_init();
 
-    fb_clear(0xFF00FF);
+    fb_clear(0xff00ff);
 
-    fb_draw_string_transparent("Welcome to MangoOS!", 0, 0, 0x000000, 2);
-    fb_fill_rect(600, 300, 100, 100, 0x00FF00);
-    fb_fill_rect(620, 320, 20, 20, 0x0000FF);
-    fb_fill_rect(660, 320, 20, 20, 0x0000FF);
-    fb_fill_rect(620, 370, 20, 20, 0xFF0000);
-    fb_fill_rect(640, 370, 20, 20, 0xFF0000);
-    fb_fill_rect(660, 370, 20, 20, 0xFF0000);
+    fb_draw_string("Welcome to MangoOS!", 0, 0, 0xffffff, 2);
 
     hcf();
 }

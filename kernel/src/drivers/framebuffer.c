@@ -68,10 +68,20 @@ void framebuffer_init(void)
     fb = framebuffer_request.response->framebuffers[0];
 }
 
-void fb_put_pixel(int x, int y, uint32_t color)
+void fb_put_pixel(uint32_t x, uint32_t y, uint32_t color)
 {
     // Check if fb is initialized to avoid null pointer dereference
     if (fb == NULL)
+    {
+        return;
+    }
+
+    if (x >= fb->width)
+    {
+        return;
+    }
+
+    if (y >= fb->height)
     {
         return;
     }
@@ -147,43 +157,14 @@ void fb_fill_rect(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint3
     }
 }
 
-void fb_draw_char(char c, int x, int y, uint32_t fg_color, uint32_t bg_color)
+void fb_draw_char(char c, int x, int y, uint32_t color, int scale)
 {
     if (fb == NULL)
     {
         return;
     }
 
-    int font_idx = (uint8_t)c;
-
-    for (int row = 0; row < 8; ++row)
-    {
-        uint8_t bitmap_row = font8x8_basic[font_idx][row];
-
-        for (int col = 0; col < 8; ++col)
-        {
-            bool pixel_set = (bitmap_row >> col) & 1;
-
-            if (pixel_set)
-            {
-                fb_put_pixel(x + col, y + row, fg_color);
-            }
-            else
-            {
-                fb_put_pixel(x + col, y + row, bg_color);
-            }
-        }
-    }
-}
-
-void fb_draw_char_transparent(char c, int x, int y, uint32_t color, int scale)
-{
-    if (fb == NULL)
-    {
-        return;
-    }
-
-    int font_idx = (uint8_t)c;
+    uint8_t font_idx = (uint8_t)c;
 
     for (int row = 0; row < 8; ++row)
     {
@@ -207,20 +188,19 @@ void fb_draw_char_transparent(char c, int x, int y, uint32_t color, int scale)
     }
 }
 
-void fb_draw_string_transparent(const char* str, int x, int y, uint32_t color, int scale)
+void fb_draw_string(const char* str, int x, int y, uint32_t color, int scale)
 {
     if (fb == NULL || str == NULL)
     {
         return;
     }
 
-    int cursor_x = x;
     int char_width = 8 * scale;
 
     while (*str)
     {
-        fb_draw_char_transparent(*str, cursor_x, y, color, scale);
-        cursor_x += char_width;
+        fb_draw_char(*str, x, y, color, scale);
+        x += char_width;
         ++str;
     }
 }
