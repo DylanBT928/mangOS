@@ -100,23 +100,18 @@ void fb_clear(uint32_t color)
         return;
     }
 
-    uint8_t r = (color >> 16) & 0xFF;
-    uint8_t g = (color >> 8) & 0xFF;
-    uint8_t b = color & 0xFF;
+    uint8_t* row_ptr = (uint8_t*)fb->address;
 
-    uint8_t bytes_per_pixel = fb->bpp / 8;
-    uint8_t* where = (uint8_t*)fb->address;
-
-    for (uint64_t y = 0; y < fb->height; ++y)
+    for (uint64_t col = 0; col < fb->height; ++col)
     {
-        for (uint64_t x = 0; x < fb->width; ++x)
+        uint32_t* pixel_addr = (uint32_t*)row_ptr;
+
+        for (uint64_t row = 0; row < fb->width; ++row)
         {
-            where[x * bytes_per_pixel] = b;
-            where[x * bytes_per_pixel + 1] = g;
-            where[x * bytes_per_pixel + 2] = r;
+            pixel_addr[row] = color;
         }
 
-        where += fb->pitch;
+        row_ptr += fb->pitch;
     }
 }
 
@@ -142,23 +137,19 @@ void fb_fill_rect(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint3
         height = fb->height - y;
     }
 
-    uint8_t r = (color >> 16) & 0xFF;
-    uint8_t g = (color >> 8) & 0xFF;
-    uint8_t b = color & 0xFF;
-
     uint8_t bytes_per_pixel = fb->bpp / 8;
-    uint8_t* where = (uint8_t*)fb->address + (y * fb->pitch) + (x * bytes_per_pixel);
+    uint8_t* row_ptr = (uint8_t*)fb->address + (y * fb->pitch) + (x * bytes_per_pixel);
 
     for (uint64_t row = 0; row < height; ++row)
     {
+        uint32_t* pixel_addr = (uint32_t*)row_ptr;
+
         for (uint64_t col = 0; col < width; ++col)
         {
-            where[col * bytes_per_pixel] = b;
-            where[col * bytes_per_pixel + 1] = g;
-            where[col * bytes_per_pixel + 2] = r;
+            pixel_addr[col] = color;
         }
 
-        where += fb->pitch;
+        row_ptr += fb->pitch;
     }
 }
 
