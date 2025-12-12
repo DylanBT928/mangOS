@@ -127,6 +127,11 @@ void fb_fill_rect(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint3
         return;
     }
 
+    if (x >= fb->width || y >= fb->height)
+    {
+        return;
+    }
+
     if (x + width > fb->width)
     {
         width = fb->width - x;
