@@ -10,7 +10,7 @@ void kmain(void)
 
     framebuffer_init();
 
-    fb_draw_string("Welcome to MangoOS!", 0, 0, 0xffffff, 2);
+    fb_draw_string("Welcome to MangoOS!", 0, 0, 0xFFFFFF, 0x000000, 2);
 
     hcf();
 }

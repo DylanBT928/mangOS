@@ -4,6 +4,7 @@
 #include <limine.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 #include "font.h"
 
@@ -151,7 +152,7 @@ void fb_fill_rect(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint3
     }
 }
 
-void fb_draw_char(char c, int x, int y, uint32_t color, int scale)
+void fb_draw_char(char c, int x, int y, uint32_t fg_color, uint32_t bg_color, int scale)
 {
     if (fb == NULL)
     {
@@ -166,21 +167,29 @@ void fb_draw_char(char c, int x, int y, uint32_t color, int scale)
 
         for (int col = 0; col < 8; ++col)
         {
+            uint32_t pixel_color;
+
             if ((bitmap_row >> col) & 1)
             {
+                pixel_color = fg_color;
+            }
+            else
+            {
+                pixel_color = bg_color;
+            }
+
                 for (int scale_y = 0; scale_y < scale; ++scale_y)
                 {
                     for (int scale_x = 0; scale_x < scale; ++scale_x)
                     {
-                        fb_put_pixel(x + (col * scale) + scale_x, y + (row * scale) + scale_y, color);
+                        fb_put_pixel(x + (col * scale) + scale_x, y + (row * scale) + scale_y, pixel_color);
                     }
                 }
-            }
         }
     }
 }
 
-void fb_draw_string(const char* str, int x, int y, uint32_t color, int scale)
+void fb_draw_string(const char* str, int x, int y, uint32_t fg_color, uint32_t bg_color, int scale)
 {
     if (fb == NULL || str == NULL)
     {
@@ -191,7 +200,7 @@ void fb_draw_string(const char* str, int x, int y, uint32_t color, int scale)
 
     while (*str)
     {
-        fb_draw_char(*str, x, y, color, scale);
+        fb_draw_char(*str, x, y, fg_color, bg_color, scale);
         x += char_width;
         ++str;
     }
