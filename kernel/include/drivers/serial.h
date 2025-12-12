@@ -1,7 +1,7 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
-#include <stdbool.h>
+#include <stdarg.h>
 #include <stdint.h>
 
 char* serial_get_log();

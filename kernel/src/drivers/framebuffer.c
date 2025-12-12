@@ -6,7 +6,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "drivers/serial.h"
 #include "font.h"
 
 // DO NOT CHANGE -- PLEASE CONSULT BEFORE CHANGING ------------------------------------
