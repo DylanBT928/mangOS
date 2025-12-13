@@ -4,7 +4,6 @@
 #include <limine.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 #include "font.h"
 
@@ -178,13 +177,13 @@ void fb_draw_char(char c, int x, int y, uint32_t fg_color, uint32_t bg_color, in
                 pixel_color = bg_color;
             }
 
-                for (int scale_y = 0; scale_y < scale; ++scale_y)
+            for (int scale_y = 0; scale_y < scale; ++scale_y)
+            {
+                for (int scale_x = 0; scale_x < scale; ++scale_x)
                 {
-                    for (int scale_x = 0; scale_x < scale; ++scale_x)
-                    {
-                        fb_put_pixel(x + (col * scale) + scale_x, y + (row * scale) + scale_y, pixel_color);
-                    }
+                    fb_put_pixel(x + (col * scale) + scale_x, y + (row * scale) + scale_y, pixel_color);
                 }
+            }
         }
     }
 }
