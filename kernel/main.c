@@ -6,11 +6,11 @@
 void kmain(void)
 {
     serial_init();
-    serial_printf("Hello from mangoOS!\n");
+    serial_printf("Hello from mangOS!\n");
 
     framebuffer_init();
 
-    fb_draw_string("Welcome to MangoOS!", 0, 0, 0xFFFFFF, 0x000000, 2);
+    fb_draw_string("Welcome to MangOS!", 0, 0, 0xFFFFFF, 0x000000, 2);
 
     hcf();
 }
