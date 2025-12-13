@@ -1,7 +1,7 @@
 .SUFFIXES:
 
 # This is the name of the final executable
-override OUTPUT := mangoOS
+override OUTPUT := mangOS
 
 # User controllable toolchain and toolchain pref
 TOOLCHAIN :=
@@ -32,7 +32,7 @@ endif
 KERNEL_DIR := kernel
 BOOTLOADER_DIR := bootloader
 ISO_DIR := iso_root
-ISO := mangoOS-x86_64.iso
+ISO := mangOS-x86_64.iso
 LINKER_SCRIPT := linker.lds
 
 # User controllable C flags
