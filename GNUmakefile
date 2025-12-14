@@ -171,4 +171,4 @@ run: iso
 clean:
 	rm -rf obj bin $(ISO_DIR) $(ISO)
 
-.PHONY: iso run run-serial clean 
+.PHONY: iso run clean
