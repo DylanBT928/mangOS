@@ -19,28 +19,20 @@
 
 ## Building
 
-The build process is automated by the GNUmakefile. 
+The build process is automated by the GNUmakefile.
 
 #### Build and Run
 
 ```bash
-make run         # Build and run the ISO in QEMU with serial output
-```
-
-#### Other Commands
-
-```bash
+make run         # Build and run the ISO in QEMU
 make iso         # Build a bootable ISO
-make run         # Launch the ISO in QEMU with serial output
 make clean       # Remove all build artifacts
 ```
 
 #### macOS
 
 ```bash
-make all TOOLCHAIN=x86_64-elf
 make iso TOOLCHAIN=x86_64-elf
-make run-serial TOOLCHAIN=x86_64-elf
 make run TOOLCHAIN=x86_64-elf
 ```
 
