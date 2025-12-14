@@ -114,9 +114,6 @@ override NASMFILES := $(filter %.asm,$(SRCFILES))
 override OBJ := $(addprefix obj/,$(CFILES:.c=.c.o) $(ASFILES:.S=.S.o) $(NASMFILES:.asm=.asm.o))
 override HEADER_DEPS := $(addprefix obj/,$(CFILES:.c=.c.d) $(ASFILES:.S=.S.d))
 
-# Default target. Must come before header dependencies
-all: bin/$(OUTPUT)
-
 # Header dependencies
 -include $(HEADER_DEPS)
 
@@ -167,14 +164,11 @@ iso: bin/$(OUTPUT)
 
 	$(BOOTLOADER_DIR)/limine/limine bios-install $(ISO)
 
-# Run with QEMU
-run:
-	qemu-system-x86_64 -cdrom $(ISO)
-
-run-serial:
+# Run with QEMU (build first and run)
+run: iso
 	qemu-system-x86_64 -cdrom $(ISO) -serial stdio
 
 clean:
 	rm -rf obj bin $(ISO_DIR) $(ISO)
 
-.PHONY: iso run run-serial clean all
+.PHONY: iso run run-serial clean 
