@@ -24,15 +24,14 @@ The build process is automated by the GNUmakefile.
 #### Build and Run
 
 ```bash
-make run         # Launch the ISO in QEMU
+make run         # Build and run the ISO in QEMU with serial output
 ```
 
 #### Other Commands
 
 ```bash
-make all         # Compile and link all source files
 make iso         # Build a bootable ISO
-make run-serial  # Launch the ISO in QEMU with serial output
+make run         # Launch the ISO in QEMU with serial output
 make clean       # Remove all build artifacts
 ```
 
