@@ -12,6 +12,8 @@ typedef struct
     uint64_t pitch;
 } framebuffer_t;
 
+extern struct limine_framebuffer* fb;
+
 void framebuffer_init(void);
 void fb_put_pixel(uint32_t x, uint32_t y, uint32_t color);
 void fb_clear(uint32_t color);

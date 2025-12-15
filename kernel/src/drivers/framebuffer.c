@@ -30,7 +30,7 @@ __attribute__((used, section(".limine_requests_start"))) static volatile uint64_
 __attribute__((used, section(".limine_requests_end"))) static volatile uint64_t limine__requests_end_marker[] = LIMINE_REQUESTS_END_MARKER;
 
 // Store the active framebuffer info
-static struct limine_framebuffer* fb = NULL;
+struct limine_framebuffer* fb = NULL;
 
 // Halt and catch fire
 // This function leads to a complete system crash, calling inline "HALT" infinite times
