@@ -19,17 +19,25 @@ void terminal_init()
     font_scale = 1;
 }
 
-void terminal_putc(char c)
-{
-    if (term_row == fb->width || c == '\n')
-    {
-        term_col += FONT_HEIGHT * font_scale;
+void terminal_putc(char c) {
+    int char_w = FONT_WIDTH * font_scale;
+    int char_h = FONT_HEIGHT * font_scale;
+    
+    if (c == '\n') {
         term_row = 0;
-    }
-    else
-    {
+        term_col += char_h;
+    } else {
         fb_draw_char(c, term_row, term_col, WHITE, BLACK, font_scale);
-        term_row += FONT_WIDTH * font_scale;
+        term_row += char_w;
+        
+        if (term_row + char_w > fb->width) {
+            term_row = 0;
+            term_col += char_h;
+        }
+    }
+    
+    if (term_col + char_h > fb->height) {
+        terminal_scroll();
     }
 }
 
@@ -45,6 +53,22 @@ void terminal_write(const char* str)
 
 void terminal_scroll()
 {
+    int char_h = FONT_HEIGHT * font_scale;
+
+    uint8_t* base = (uint8_t*)fb->address;
+    uint64_t row_bytes = fb->pitch;
+    uint64_t copy_bytes = (fb->height - char_h) * row_bytes;
+
+    for(uint64_t i = 0; i < copy_bytes; ++i)
+    {
+        base[i] = base[i + char_h * row_bytes];
+    }
+
+    fb_fill_rect(0, fb->height - char_h, fb->width, char_h, BLACK);
+
+    term_col = fb->height - char_h;
+    term_row = 0;
+
 }
 
 void terminal_font_increase_scale()

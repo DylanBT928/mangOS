@@ -37,6 +37,12 @@ void kmain(void)
     // hello string
     terminal_write("hello string\n\n");
 
+    //check terminal scrolling
+    for (size_t i = 0; i < 20000; ++i)
+    {
+        terminal_putc('a');
+    }
+
     for (size_t i = 0; i < 200; ++i)
     {
         terminal_putc('c');
