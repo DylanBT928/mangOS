@@ -6,7 +6,7 @@
 #include "drivers/serial.h"
 #include "drivers/terminal.h"
 #include "libc/stdlib.h"
-#include "mem.h"
+#include "libc/string.h"
 
 void hcf(void);
 
