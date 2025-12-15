@@ -1,5 +1,7 @@
 #include "drivers/terminal.h"
 
+#include <limine.h>
+
 #include "colors.h"
 #include "drivers/framebuffer.h"
 
