@@ -5,6 +5,14 @@
 #include "colors.h"
 #include "drivers/framebuffer.h"
 
+static size_t term_width;
+static size_t term_height;
+
+static size_t cursor_x;
+static size_t cursor_y;
+
+static size_t font_scale;
+
 void terminal_init()
 {
     framebuffer_init();
