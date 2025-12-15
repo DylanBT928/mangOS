@@ -12,9 +12,14 @@ static size_t term_height;
 static size_t term_row;
 static size_t term_col;
 
+static size_t font_scale;
+
 void terminal_init();
 void terminal_putc(char c);
 void terminal_write();
 void terminal_scroll();
+
+void terminal_font_increase_scale();
+void terminal_font_decrease_scale();
 
 #endif
