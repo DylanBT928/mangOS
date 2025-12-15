@@ -2,8 +2,6 @@
 #define TSS_H
 
 #include <stdint.h>
-#include <stddef.h>
-
 typedef struct 
 {
     uint32_t reserved0;
