@@ -33,8 +33,14 @@ void terminal_putc(char c)
     }
 }
 
-void terminal_write()
+void terminal_write(const char* str)
 {
+    size_t i = 0;
+
+    while (str[i] != '\0')
+    {
+        terminal_putc(str[i++]);
+    }
 }
 
 void terminal_scroll()

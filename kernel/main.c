@@ -34,6 +34,9 @@ void kmain(void)
     terminal_putc('\n');
     terminal_putc('\n');
 
+    // hello string
+    terminal_write("hello string\n\n");
+
     for (size_t i = 0; i < 200; ++i)
     {
         terminal_putc('c');

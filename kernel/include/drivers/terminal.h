@@ -16,7 +16,7 @@ static size_t font_scale;
 
 void terminal_init();
 void terminal_putc(char c);
-void terminal_write();
+void terminal_write(const char* str);
 void terminal_scroll();
 
 void terminal_font_increase_scale();
