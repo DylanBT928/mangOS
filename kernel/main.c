@@ -37,16 +37,27 @@ void kmain(void)
     // hello string
     terminal_write("hello string\n\n");
 
-    //check terminal scrolling
-    for (size_t i = 0; i < 20000; ++i)
+    // check terminal scrolling
+    // for (char c = 'A'; c <= 'z'; ++c)
+    // {
+    //     terminal_putc(c);
+    //     // terminal_putc('\n');
+    // }
+
+    for (size_t i = 0; i < 100; ++i)
     {
         terminal_putc('a');
+        terminal_putc('\n');
     }
 
-    for (size_t i = 0; i < 200; ++i)
-    {
-        terminal_putc('c');
-    }
+    // terminal_putc('\n');
+    //
+    // for (size_t i = 0; i < 200; ++i)
+    // {
+    //     terminal_putc('c');
+    // }
+
+    terminal_write("if you see this, terminal scrolling works!");
 
     hcf();
 }

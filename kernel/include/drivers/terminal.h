@@ -9,8 +9,8 @@
 static size_t term_width;
 static size_t term_height;
 
-static size_t term_row;
-static size_t term_col;
+static size_t cursor_x;
+static size_t cursor_y;
 
 static size_t font_scale;
 
