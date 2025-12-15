@@ -38,24 +38,21 @@ void kmain(void)
     terminal_write("hello string\n\n");
 
     // check terminal scrolling
-    // for (char c = 'A'; c <= 'z'; ++c)
-    // {
-    //     terminal_putc(c);
-    //     // terminal_putc('\n');
-    // }
-
-    for (size_t i = 0; i < 100; ++i)
+    for (char c = 'A'; c <= 'Z'; ++c)
     {
-        terminal_putc('a');
+        terminal_putc(c);
         terminal_putc('\n');
     }
 
-    // terminal_putc('\n');
-    //
-    // for (size_t i = 0; i < 200; ++i)
-    // {
-    //     terminal_putc('c');
-    // }
+    terminal_putc('\n');
+
+    for (char c = 'a'; c <= 'z'; ++c)
+    {
+        terminal_putc(c);
+        terminal_putc('\n');
+    }
+
+    terminal_putc('\n');
 
     terminal_write("if you see this, terminal scrolling works!");
 

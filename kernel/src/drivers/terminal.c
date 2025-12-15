@@ -31,19 +31,22 @@ void terminal_putc(char c)
     }
     else
     {
-        if (cursor_x > fb->width)
+        if (cursor_x + char_w > fb->width)
         {
             cursor_x = 0;
             cursor_y += char_h;
         }
-
-        fb_draw_char(c, cursor_x, cursor_y, WHITE, BLACK, font_scale);
-        cursor_x += char_w;
     }
 
-    if (cursor_y > fb->height)
+    if (cursor_y + char_h > fb->height)
     {
         terminal_scroll();
+    }
+
+    if (c != '\n')
+    {
+        fb_draw_char(c, cursor_x, cursor_y, WHITE, BLACK, font_scale);
+        cursor_x += char_w;
     }
 }
 
