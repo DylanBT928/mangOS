@@ -1,6 +1,7 @@
 #include "drivers/terminal.h"
 
 #include <limine.h>
+#include <stdint.h>
 
 #include "colors.h"
 #include "drivers/framebuffer.h"
@@ -27,7 +28,7 @@ void terminal_init()
     font_scale = 1;
 }
 
-void terminal_putc(char c)
+void terminal_putc(char c, uint32_t color)
 {
     int char_w = FONT_WIDTH * font_scale;
     int char_h = FONT_HEIGHT * font_scale;
@@ -53,18 +54,18 @@ void terminal_putc(char c)
 
     if (c != '\n')
     {
-        fb_draw_char(c, cursor_x, cursor_y, WHITE, BLACK, font_scale);
+        fb_draw_char(c, cursor_x, cursor_y, color, BLACK, font_scale);
         cursor_x += char_w;
     }
 }
 
-void terminal_write(const char* str)
+void terminal_write(const char* str, uint32_t color)
 {
     size_t i = 0;
 
     while (str[i] != '\0')
     {
-        terminal_putc(str[i++]);
+        terminal_putc(str[i++], color);
     }
 }
 
