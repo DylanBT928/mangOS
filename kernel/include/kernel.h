@@ -1,10 +1,10 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
-#include "drivers/framebuffer.h"
+#include "colors.h"
 #include "drivers/serial.h"
 #include "drivers/terminal.h"
-#include "mem.h"
+#include "libc/stdlib.h"
 
 void hcf(void);
 
