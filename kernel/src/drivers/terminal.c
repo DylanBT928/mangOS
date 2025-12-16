@@ -17,6 +17,12 @@ static size_t font_scale;
 void terminal_init()
 {
     framebuffer_init();
+
+    if (fb == NULL) 
+    {
+        return;
+    }
+
     fb_clear(BLACK);
 
     term_width = fb->width / FONT_WIDTH;
@@ -45,17 +51,14 @@ void terminal_putc(char c, uint32_t color)
             cursor_x = 0;
             cursor_y += char_h;
         }
+        
+        fb_draw_char(c, cursor_x, cursor_y, color, BLACK, font_scale);
+        cursor_x += char_w;
     }
 
     if (cursor_y + char_h > fb->height)
     {
         terminal_scroll();
-    }
-
-    if (c != '\n')
-    {
-        fb_draw_char(c, cursor_x, cursor_y, color, BLACK, font_scale);
-        cursor_x += char_w;
     }
 }
 
@@ -90,10 +93,16 @@ void terminal_scroll()
 
 void terminal_font_increase_scale()
 {
-    ++font_scale;
+    if (font_scale < 8)
+    {
+        ++font_scale;
+    }
 }
 
 void terminal_font_decrease_scale()
 {
-    --font_scale;
+    if (font_scale > 1)
+    {
+        --font_scale;
+    }
 }
