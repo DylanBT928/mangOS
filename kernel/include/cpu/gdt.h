@@ -28,5 +28,6 @@ typedef struct
 } __attribute__((packed)) gdt_register;
 
 void init_gdt();
+void gdt_set_entry(int i, uint32_t base, uint32_t limit, uint8_t access, uint8_t flags);
 
 #endif
