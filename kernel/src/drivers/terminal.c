@@ -3,9 +3,9 @@
 #include <limine.h>
 #include <stdint.h>
 
-#include "libc/string.h"
 #include "colors.h"
 #include "drivers/framebuffer.h"
+#include "libc/string.h"
 
 static size_t term_width;
 static size_t term_height;
