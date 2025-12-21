@@ -5,6 +5,7 @@
 
 #include "colors.h"
 #include "drivers/framebuffer.h"
+#include "libc/string.h"
 
 static size_t term_width;
 static size_t term_height;
@@ -78,12 +79,10 @@ void terminal_scroll()
 
     uint8_t* base = (uint8_t*)fb->address;
     uint64_t row_bytes = fb->pitch;
-    uint64_t copy_bytes = (fb->height - char_h) * row_bytes;
+    uint64_t offset = (uint64_t)char_h * row_bytes;
+    uint64_t copy_bytes = (uint64_t)(fb->height - char_h) * row_bytes;
 
-    for (uint64_t i = 0; i < copy_bytes; ++i)
-    {
-        base[i] = base[i + char_h * row_bytes];
-    }
+    memmove(base, base + offset, copy_bytes);
 
     fb_fill_rect(0, fb->height - char_h, fb->width, char_h, BLACK);
 

@@ -16,17 +16,5 @@ void kmain(void)
     terminal_write("mangOS", YELLOW);
     terminal_write("!\n", WHITE);
 
-    terminal_putc('\n', WHITE);
-    terminal_write(itoa(255, 10), WHITE);  // 255
-
-    terminal_putc('\n', WHITE);
-    terminal_write(itoa(255, 16), WHITE);  // ff
-
-    terminal_putc('\n', WHITE);
-    terminal_write(itoa(255, 2), WHITE);  // 11111111
-
-    terminal_putc('\n', WHITE);
-    terminal_write(itoa(10, 16), WHITE);  // a
-
     hcf();
 }
