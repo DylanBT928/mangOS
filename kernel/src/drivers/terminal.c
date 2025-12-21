@@ -13,30 +13,37 @@ static const uint8_t font_height = 8;
 static uint16_t cursor_x = 0;
 static uint16_t cursor_y = 0;
 
-static const uint16_t term_width = fb->width / font_width;
-static const uint16_t term_height = fb->height / font_height;
+static uint16_t term_width;
+static uint16_t term_height;
 
-static const uint8_t font_scale = 1;
+static uint8_t font_scale = 1;
 
-static const uint16_t char_w = font_width * font_scale;
-static const uint16_t char_h = font_height * font_scale;
+static uint16_t char_w;
+static uint16_t char_h;
 
 void terminal_init()
 {
     framebuffer_init();
     fb_clear(BLACK);
+
+    term_width = fb->width / font_width;
+    term_height = fb->height / font_height;
+
+    char_w = font_width * font_scale;
+    char_h = font_height * font_scale;
 }
 
 void terminal_putc(char c, uint32_t color)
 {
-
-    if (c == '\n') {
+    if (c == '\n')
+    {
         cursor_x = 0;
         cursor_y += char_h;
-
-    } else if (cursor_x + char_w > fb->width) {
-            cursor_x = 0;
-            cursor_y += char_h;
+    }
+    else if (cursor_x + char_w > fb->width)
+    {
+        cursor_x = 0;
+        cursor_y += char_h;
     }
 
     if (cursor_y + char_h > fb->height)
@@ -53,11 +60,10 @@ void terminal_putc(char c, uint32_t color)
 
 void terminal_write(const char* str, uint32_t color)
 {
-
-    for (size_t i = 0; str[i]; i++) {
-        terminal_putc(str[i++], color);
+    for (size_t i = 0; str[i]; ++i)
+    {
+        terminal_putc(str[i], color);
     }
-
 }
 
 void terminal_scroll()
@@ -79,10 +85,22 @@ void terminal_scroll()
 
 void terminal_font_increase_scale()
 {
-    ++font_scale;
+    if (font_scale < 8)
+    {
+        ++font_scale;
+
+        char_w = font_width * font_scale;
+        char_h = font_height * font_scale;
+    }
 }
 
 void terminal_font_decrease_scale()
 {
-    --font_scale;
+    if (font_scale > 1)
+    {
+        --font_scale;
+
+        char_w = font_width * font_scale;
+        char_h = font_height * font_scale;
+    }
 }
