@@ -1,5 +1,7 @@
 #include "cpu/gdt.h"
+#include "cpu/tss.h"
 #include "drivers/serial.h"
+#include "libc/string.h"
 
 // GDT has 7 entries total:
 // 0: Null descriptor 
@@ -11,6 +13,7 @@
 #define GDT_ENTRIES 7
 
 gdt_entry_tss gdt[GDT_ENTRIES];
+gdt_register gdtr;
 
 void gdt_set_entry(int i, uint32_t base, uint32_t limit, uint8_t access, uint8_t flags)
 {
@@ -29,9 +32,20 @@ void gdt_set_entry(int i, uint32_t base, uint32_t limit, uint8_t access, uint8_t
 
 void init_gdt() 
 {
+    // Clear the GDT
+    memset(&gdt, 0, sizeof(gdt));
+
     gdt_set_entry(0, 0, 0, 0, 0);                 // Null descriptor 
     gdt_set_entry(1, 0, 0xFFFFF, 0x9A, 0xA0);     // Kernel Code Segment (selector 0x08)
     gdt_set_entry(2, 0, 0xFFFFF, 0x92, 0xA0);     // Kernel Data Segment (selector 0x10)
     gdt_set_entry(3, 0, 0xFFFFF, 0xFA, 0xA0);     // User Code Segment (selector 0x18)
     gdt_set_entry(4, 0, 0xFFFFF, 0xF2, 0xA0);     // User Data Segment (selector 0x20
+
+    init_tss();
+
+    // Set up the GDT register (GDTR)
+    gdtr.limit = (sizeof(gdt_entry_tss) * GDT_ENTRIES) - 1;
+    gdtr.base = (uint64_t)&gdt;
+
+    serial_printf("Loading GDT at: base=0x%p, limit=0x%x\n", (void*)gdtr.base, gdtr.limit);
 }

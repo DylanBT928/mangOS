@@ -22,5 +22,6 @@ typedef struct
 } __attribute__((packed)) tss_entry;
 
 void init_tss();
+void tss_set_entry(int i, uint64_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
 #endif
