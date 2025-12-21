@@ -7,51 +7,36 @@
 #include "drivers/framebuffer.h"
 #include "libc/string.h"
 
-static size_t font_width;
-static size_t font_height;
+static const uint8_t font_width = 8;
+static const uint8_t font_height = 8;
 
-static size_t term_width;
-static size_t term_height;
+static uint16_t cursor_x = 0;
+static uint16_t cursor_y = 0;
 
-static size_t cursor_x;
-static size_t cursor_y;
+static const uint16_t term_width = fb->width / font_width;
+static const uint16_t term_height = fb->height / font_height;
 
-static size_t font_scale;
+static const uint8_t font_scale = 1;
+
+static const uint16_t char_w = font_width * font_scale;
+static const uint16_t char_h = font_height * font_scale;
 
 void terminal_init()
 {
     framebuffer_init();
     fb_clear(BLACK);
-
-    font_width = 8;
-    font_height = 8;
-
-    term_width = fb->width / font_width;
-    term_height = fb->height / font_height;
-
-    cursor_x = 0;
-    cursor_y = 0;
-
-    font_scale = 1;
 }
 
 void terminal_putc(char c, uint32_t color)
 {
-    int char_w = font_width * font_scale;
-    int char_h = font_height * font_scale;
 
-    if (c == '\n')
-    {
+    if (c == '\n') {
         cursor_x = 0;
         cursor_y += char_h;
-    }
-    else
-    {
-        if (cursor_x + char_w > fb->width)
-        {
+
+    } else if (cursor_x + char_w > fb->width) {
             cursor_x = 0;
             cursor_y += char_h;
-        }
     }
 
     if (cursor_y + char_h > fb->height)
@@ -68,12 +53,11 @@ void terminal_putc(char c, uint32_t color)
 
 void terminal_write(const char* str, uint32_t color)
 {
-    size_t i = 0;
 
-    while (str[i] != '\0')
-    {
+    for (size_t i = 0; str[i]; i++) {
         terminal_putc(str[i++], color);
     }
+
 }
 
 void terminal_scroll()
