@@ -1,4 +1,4 @@
-#include "mem.h"
+#include "libc/string.h"
 
 // GCC and Clang need memcpy and memset and memmove and memcmp for their optimizations
 // ie) instead of for loops they use memcpy and memset
