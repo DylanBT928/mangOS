@@ -7,6 +7,9 @@
 #include "drivers/framebuffer.h"
 #include "libc/string.h"
 
+static size_t font_width;
+static size_t font_height;
+
 static size_t term_width;
 static size_t term_height;
 
@@ -20,8 +23,11 @@ void terminal_init()
     framebuffer_init();
     fb_clear(BLACK);
 
-    term_width = fb->width / FONT_WIDTH;
-    term_height = fb->height / FONT_HEIGHT;
+    font_width = 8;
+    font_height = 8;
+
+    term_width = fb->width / font_width;
+    term_height = fb->height / font_height;
 
     cursor_x = 0;
     cursor_y = 0;
@@ -31,8 +37,8 @@ void terminal_init()
 
 void terminal_putc(char c, uint32_t color)
 {
-    int char_w = FONT_WIDTH * font_scale;
-    int char_h = FONT_HEIGHT * font_scale;
+    int char_w = font_width * font_scale;
+    int char_h = font_height * font_scale;
 
     if (c == '\n')
     {
@@ -72,7 +78,7 @@ void terminal_write(const char* str, uint32_t color)
 
 void terminal_scroll()
 {
-    int char_h = FONT_HEIGHT * font_scale;
+    int char_h = font_height * font_scale;
 
     uint8_t* base = (uint8_t*)fb->address;
     uint64_t row_bytes = fb->pitch;

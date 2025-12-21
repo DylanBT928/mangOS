@@ -4,9 +4,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define FONT_WIDTH 8
-#define FONT_HEIGHT 8
-
 void terminal_init();
 void terminal_putc(char c, uint32_t color);
 void terminal_write(const char* str, uint32_t color);
