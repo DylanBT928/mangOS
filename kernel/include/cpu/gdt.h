@@ -3,25 +3,27 @@
 
 #include <stdint.h>
 
-typedef union gdt_entry 
+typedef union gdt_entry
 {
-    struct {
+    struct
+    {
         uint16_t limit;
         uint16_t base_low;
-        uint8_t  base_mid;
-        uint8_t  access_byte;
-        uint8_t  flags;
-        uint8_t  base_high;
+        uint8_t base_mid;
+        uint8_t access_byte;
+        uint8_t flags;
+        uint8_t base_high;
     };
-    struct {
+
+    struct
+    {
         uint32_t base_upper;
         uint32_t reserved;
     };
 
 } __attribute__((packed)) gdt_entry_tss;
 
-
-typedef struct 
+typedef struct
 {
     uint16_t limit;
     uint64_t base;

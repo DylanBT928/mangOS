@@ -1,7 +1,8 @@
 #include "cpu/tss.h"
+
 #include "cpu/gdt.h"
-#include "libc/string.h"
 #include "drivers/serial.h"
+#include "libc/string.h"
 
 #define GDT_ENTRIES 7
 #define STACK_SIZE 0x4000
@@ -14,18 +15,18 @@ static tss_entry tss;
 
 void tss_set_entry(int i, uint64_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
-   // First 8 bytes (standard descriptor format)
-   gdt[i].limit = (limit & 0xFFFF);
-   gdt[i].flags = (limit >> 16) & 0x0F;
-   gdt[i].base_low = (base & 0xFFFF);            
-   gdt[i].base_mid = (base >> 16) & 0xFF;        
-   gdt[i].base_high = (base >> 24) & 0xFF;        
-   gdt[i].access_byte = access;                     
-   gdt[i].flags |= gran & 0xF0;                
-  
-   // Second 8 bytes (upper 32 bits of base address for 64-bit)
-   gdt[i + 1].base_upper = (base >> 32) & 0xFFFFFFFF; 
-   gdt[i + 1].reserved = 0;
+    // First 8 bytes (standard descriptor format)
+    gdt[i].limit = (limit & 0xFFFF);
+    gdt[i].flags = (limit >> 16) & 0x0F;
+    gdt[i].base_low = (base & 0xFFFF);
+    gdt[i].base_mid = (base >> 16) & 0xFF;
+    gdt[i].base_high = (base >> 24) & 0xFF;
+    gdt[i].access_byte = access;
+    gdt[i].flags |= gran & 0xF0;
+
+    // Second 8 bytes (upper 32 bits of base address for 64-bit)
+    gdt[i + 1].base_upper = (base >> 32) & 0xFFFFFFFF;
+    gdt[i + 1].reserved = 0;
 }
 
 // TSS is used by the CPU for stack switching when privilege levels change

@@ -19,7 +19,7 @@ void terminal_init()
 {
     framebuffer_init();
 
-    if (fb == NULL) 
+    if (fb == NULL)
     {
         return;
     }
@@ -52,7 +52,7 @@ void terminal_putc(char c, uint32_t color)
             cursor_x = 0;
             cursor_y += char_h;
         }
-        
+
         fb_draw_char(c, cursor_x, cursor_y, color, BLACK, font_scale);
         cursor_x += char_w;
     }
