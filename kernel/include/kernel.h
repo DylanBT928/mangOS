@@ -2,6 +2,7 @@
 #define KERNEL_H
 
 #include "colors.h"
+#include "cpu/gdt.h"
 #include "drivers/serial.h"
 #include "drivers/terminal.h"
 #include "libc/stdlib.h"

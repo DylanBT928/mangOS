@@ -49,4 +49,9 @@ void init_gdt()
     gdtr.base = (uint64_t)&gdt;
 
     serial_printf("Loading GDT at: base=0x%p, limit=0x%x\n", (void*)gdtr.base, gdtr.limit);
+
+    load_gdt(&gdtr);
+    load_tss();
+
+    serial_printf("Loaded GDT and TSS successfully.");
 }

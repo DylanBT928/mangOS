@@ -22,6 +22,8 @@ typedef struct
     uint16_t iomap_offset;
 } __attribute__((packed)) tss_entry;
 
+extern void load_tss(void);
+
 void init_tss();
 void tss_set_entry(int i, uint64_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
