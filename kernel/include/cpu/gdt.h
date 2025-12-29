@@ -29,6 +29,8 @@ typedef struct
     uint64_t base;
 } __attribute__((packed)) gdt_register;
 
+extern void load_gdt(gdt_register* gdtr);
+
 void init_gdt();
 void gdt_set_entry(int i, uint32_t base, uint32_t limit, uint8_t access, uint8_t flags);
 

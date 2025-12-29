@@ -8,6 +8,8 @@ void kmain(void)
     serial_init();
     serial_printf("Hello from mangOS!\n");
 
+    init_gdt();
+
     terminal_init();
 
     terminal_font_increase_scale();
