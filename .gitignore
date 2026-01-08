@@ -7,5 +7,6 @@ obj/
 *.iso
 *.DS_Store
 
-
 bootloader/limine/limine.dSYM
+
+*.swp
