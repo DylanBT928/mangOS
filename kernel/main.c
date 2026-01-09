@@ -1,4 +1,5 @@
 #include <kernel.h>
+#include "cpu/idt.h"
 
 // This is our Kernel's main entry point
 // If we rename this function, we have to change the linker script accordingly
@@ -17,6 +18,9 @@ void kmain(void)
     terminal_write("Welcome to ", WHITE);
     terminal_write("mangOS", YELLOW);
     terminal_write("!\n", WHITE);
+
+    init_idt();
+    test_divide_by_zero();
 
     hcf();
 }
