@@ -158,46 +158,33 @@ void fb_draw_char(uint32_t c, int x, int y, uint32_t fg_color, uint32_t bg_color
         return;
     }
 
-    char* bitmap = NULL;
-
-    if (c < 128)
+    if (c == 0x2584)
     {
-        bitmap = font8x8_basic[c];
+        c = 220;
     }
-    else if (c >= 0x00A0 && c <= 0x00FF)
+    else if (c == 0x2588)
     {
-        bitmap = font8x8_ext_latin[c - 0x00A0];
+        c = 219;
     }
-    else if (c >= 0x0390 && c <= 0x03C9)
+    else if (c == 0x2580)
     {
-        bitmap = font8x8_greek[c - 0x0390];
-    }
-    else if (c >= 0x2500 && c <= 0x257F)
-    {
-        bitmap = font8x8_box[c - 0x2500];
-    }
-    else if (c >= 0x2580 && c <= 0x259F)
-    {
-        bitmap = font8x8_block[c - 0x2580];
-    }
-    else if (c >= 0x3040 && c <= 0x309F)
-    {
-        bitmap = font8x8_hiragana[c - 0x3040];
-    }
-    else
-    {
-        bitmap = font8x8_basic['?'];
+        c = 223;
     }
 
-    for (int row = 0; row < 8; ++row)
+    if (c > 255)
     {
-        uint8_t bitmap_row = bitmap[row];
+        c = '?';
+    }
+
+    for (int row = 0; row < 16; ++row)
+    {
+        uint8_t bitmap_row = fontdata_8x16[c * 16 + row];
 
         for (int col = 0; col < 8; ++col)
         {
             uint32_t pixel_color;
 
-            if ((bitmap_row >> col) & 1)
+            if ((bitmap_row >> (7 - col)) & 1)
             {
                 pixel_color = fg_color;
             }

@@ -8,7 +8,7 @@
 #include "libc/string.h"
 
 static const uint8_t font_width = 8;
-static const uint8_t font_height = 8;
+static const uint8_t font_height = 16;
 
 static uint16_t cursor_x = 0;
 static uint16_t cursor_y = 0;

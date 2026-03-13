@@ -26,9 +26,9 @@ void kmain(void)
 
     terminal_putc('\n', WHITE);
 
-    terminal_write("\tOS: mangOS\n", WHITE);
-    terminal_write("\tKernel: x64\n", WHITE);
-    terminal_write("\tVersion: 0.0.1\n", WHITE);
+    terminal_write("  OS: mangOS\n", WHITE);
+    terminal_write("  Kernel: x64\n", WHITE);
+    terminal_write("  Version: 0.0.1\n", WHITE);
 
     terminal_putc('\n', WHITE);
 
