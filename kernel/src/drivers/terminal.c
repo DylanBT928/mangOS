@@ -33,12 +33,13 @@ void terminal_init()
     char_h = font_height * font_scale;
 }
 
-void terminal_putc(char c, uint32_t color)
+void terminal_putc(uint32_t c, uint32_t color)
 {
     if (c == '\n')
     {
         cursor_x = 0;
         cursor_y += char_h;
+        return;
     }
     else if (cursor_x + char_w > fb->width)
     {
@@ -51,18 +52,43 @@ void terminal_putc(char c, uint32_t color)
         terminal_scroll();
     }
 
-    if (c != '\n')
-    {
-        fb_draw_char(c, cursor_x, cursor_y, color, BLACK, font_scale);
-        cursor_x += char_w;
-    }
+    fb_draw_char(c, cursor_x, cursor_y, color, BLACK, font_scale);
+    cursor_x += char_w;
 }
 
 void terminal_write(const char* str, uint32_t color)
 {
-    for (size_t i = 0; str[i]; ++i)
+    uint8_t* ustr = (uint8_t*)str;
+
+    while (*ustr)
     {
-        terminal_putc(str[i], color);
+        uint32_t c = 0;
+
+        if ((*ustr & 0x80) == 0)
+        {
+            // 1-byte
+            c = *ustr++;
+        }
+        else if ((*ustr & 0xE0) == 0xC0)
+        {
+            // 2-byte
+            c = ((*ustr & 0x1F) << 6) | (*(ustr + 1) & 0x3F);
+            ustr += 2;
+        }
+        else if ((*ustr & 0xF0) == 0xE0)
+        {
+            // 3-byte
+            c = ((*ustr & 0x0F) << 12) | ((*(ustr + 1) & 0x3F) << 6) | (*(ustr + 2) & 0x3F);
+            ustr += 3;
+        }
+        else
+        {
+            // unsupported or 4-byte
+            ++ustr;
+            continue;
+        }
+
+        terminal_putc(c, color);
     }
 }
 

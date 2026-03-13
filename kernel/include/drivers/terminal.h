@@ -5,7 +5,7 @@
 #include <stdint.h>
 
 void terminal_init();
-void terminal_putc(char c, uint32_t color);
+void terminal_putc(uint32_t c, uint32_t color);
 void terminal_write(const char* str, uint32_t color);
 void terminal_scroll();
 

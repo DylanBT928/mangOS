@@ -151,18 +151,47 @@ void fb_fill_rect(uint64_t x, uint64_t y, uint64_t width, uint64_t height, uint3
     }
 }
 
-void fb_draw_char(char c, int x, int y, uint32_t fg_color, uint32_t bg_color, int scale)
+void fb_draw_char(uint32_t c, int x, int y, uint32_t fg_color, uint32_t bg_color, int scale)
 {
     if (fb == NULL)
     {
         return;
     }
 
-    uint8_t font_idx = (uint8_t)c;
+    char* bitmap = NULL;
+
+    if (c < 128)
+    {
+        bitmap = font8x8_basic[c];
+    }
+    else if (c >= 0x00A0 && c <= 0x00FF)
+    {
+        bitmap = font8x8_ext_latin[c - 0x00A0];
+    }
+    else if (c >= 0x0390 && c <= 0x03C9)
+    {
+        bitmap = font8x8_greek[c - 0x0390];
+    }
+    else if (c >= 0x2500 && c <= 0x257F)
+    {
+        bitmap = font8x8_box[c - 0x2500];
+    }
+    else if (c >= 0x2580 && c <= 0x259F)
+    {
+        bitmap = font8x8_block[c - 0x2580];
+    }
+    else if (c >= 0x3040 && c <= 0x309F)
+    {
+        bitmap = font8x8_hiragana[c - 0x3040];
+    }
+    else
+    {
+        bitmap = font8x8_basic['?'];
+    }
 
     for (int row = 0; row < 8; ++row)
     {
-        uint8_t bitmap_row = font8x8_basic[font_idx][row];
+        uint8_t bitmap_row = bitmap[row];
 
         for (int col = 0; col < 8; ++col)
         {
@@ -199,8 +228,33 @@ void fb_draw_string(const char* str, int x, int y, uint32_t fg_color, uint32_t b
 
     while (*str)
     {
-        fb_draw_char(*str, x, y, fg_color, bg_color, scale);
+        uint32_t c = 0;
+
+        if ((*str & 0x80) == 0)
+        {
+            // 1-byte
+            c = *str++;
+        }
+        else if ((*str & 0xE0) == 0xC0)
+        {
+            // 2-byte
+            c = ((*str & 0x1F) << 6) | (*(str + 1) & 0x3F);
+            str += 2;
+        }
+        else if ((*str & 0xF0) == 0xE0)
+        {
+            // 3-byte
+            c = ((*str & 0x0F) << 12) | ((*(str + 1) & 0x3F) << 6) | (*(str + 2) & 0x3F);
+            str += 3;
+        }
+        else
+        {
+            // unsupported or 4-byte
+            ++str;
+            continue;
+        }
+
+        fb_draw_char(c, x, y, fg_color, bg_color, scale);
         x += char_width;
-        ++str;
     }
 }

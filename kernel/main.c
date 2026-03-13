@@ -15,8 +15,8 @@ void kmain(void)
     terminal_font_increase_scale();
 
     terminal_write("Welcome to ", WHITE);
-    terminal_write("mangOS", YELLOW);
-    terminal_write("!\n", WHITE);
+    terminal_write("mangOS\n", YELLOW);
+    terminal_write(u8"! ▄▄▄▄███▄▄▄▄   \n", WHITE);
 
     hcf();
 }
