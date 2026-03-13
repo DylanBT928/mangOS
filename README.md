@@ -6,6 +6,8 @@
 
 </div>
 
+![Welcome text](assets/welcome.png)
+
 <p>mangOS is a 64-bit x86-64 operating system built using C. It is powered by the Limine bootloader and utilizes the GNU Make build system. Its long-term direction is unknown for now, and the project may continue to grow or conclude as our goals evolve. Nonetheless, we are thrilled to learn about opearting systems and see where it leads us.</p>
 
 ## Prerequisites
