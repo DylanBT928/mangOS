@@ -13,10 +13,27 @@ void kmain(void)
     terminal_init();
 
     terminal_font_increase_scale();
+    terminal_putc('\n', WHITE);
 
-    terminal_write("Welcome to ", WHITE);
-    terminal_write("mangOS\n", YELLOW);
-    terminal_write(u8"! ▄▄▄▄███▄▄▄▄   \n", WHITE);
+    terminal_write("  ▄▄▄▄███▄▄▄▄      ▄████████ ███▄▄▄▄      ▄██████▄   ▄██████▄     ▄████████\n", YELLOW);
+    terminal_write("▄██▀▀▀███▀▀▀██▄   ███    ███ ███▀▀▀██▄   ███    ███ ███    ███   ███    ███\n", YELLOW);
+    terminal_write("███   ███   ███   ███    ███ ███   ███   ███    █▀  ███    ███   ███    █▀ \n", YELLOW);
+    terminal_write("███   ███   ███   ███    ███ ███   ███  ▄███        ███    ███   ███       \n", YELLOW);
+    terminal_write("███   ███   ███ ▀███████████ ███   ███ ▀▀███ ████▄  ███    ███ ▀███████████\n", YELLOW);
+    terminal_write("███   ███   ███   ███    ███ ███   ███   ███    ███ ███    ███          ███\n", YELLOW);
+    terminal_write("███   ███   ███   ███    ███ ███   ███   ███    ███ ███    ███    ▄█    ███\n", YELLOW);
+    terminal_write(" ▀█   ███   █▀    ███    █▀   ▀█   █▀    ████████▀   ▀██████▀   ▄████████▀ \n", YELLOW);
+
+    terminal_putc('\n', WHITE);
+
+    terminal_write("\tOS: mangOS\n", WHITE);
+    terminal_write("\tKernel: x64\n", WHITE);
+    terminal_write("\tVersion: 0.0.1\n", WHITE);
+
+    terminal_putc('\n', WHITE);
+
+    terminal_write("Type \'help\' to get a list of available commands.\n", WHITE);
+    terminal_write("mangOS> ", YELLOW);
 
     hcf();
 }
