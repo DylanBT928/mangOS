@@ -12,7 +12,7 @@ void kmain(void)
 
     terminal_init();
 
-    terminal_font_increase_scale();
+    // terminal_font_increase_scale();
     terminal_putc('\n', WHITE);
 
     terminal_write("  ▄▄▄▄███▄▄▄▄      ▄████████ ███▄▄▄▄      ▄██████▄   ▄██████▄     ▄████████\n", YELLOW);
