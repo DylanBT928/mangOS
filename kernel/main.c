@@ -32,7 +32,7 @@ void kmain(void)
 
     terminal_putc('\n', WHITE);
 
-    terminal_write("Type \'help\' to get a list of available commands.\n", WHITE);
+    terminal_write("Type 'help' to get a list of available commands.\n", WHITE);
     terminal_write("mangOS> ", YELLOW);
 
     hcf();
