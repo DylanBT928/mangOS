@@ -28,7 +28,6 @@ typedef struct
     uint64_t base;   // Base address of IDT
 } __attribute__((packed)) idtr;
 
-static idt_entry idt[256];
 extern idtr idtr_ptr;
 
 // Interrupt frame pushed by CPU during interrupt

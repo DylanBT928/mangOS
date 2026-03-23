@@ -5,6 +5,8 @@
 #include "libc/string.h"
 
 idtr idtr_ptr;
+static idt_entry idt[256];
+
 extern void load_idt();
 
 void idt_set_gate(uint8_t vector, uint64_t handler, uint16_t selector, uint8_t attributes)
