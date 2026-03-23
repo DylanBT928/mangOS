@@ -1,6 +1,7 @@
-#include "kernel.h"
 #include "cpu/idt.h"
+
 #include "drivers/serial.h"
+#include "kernel.h"
 #include "libc/string.h"
 
 idtr idtr_ptr;
@@ -18,8 +19,7 @@ void idt_set_gate(uint8_t vector, uint64_t handler, uint16_t selector, uint8_t a
 }
 
 // lets the compiler know this is an interrupt handler
-__attribute__((interrupt))
-void isr_divide_by_zero(interrupt_frame *frame)
+__attribute__((interrupt)) void isr_divide_by_zero(interrupt_frame* frame)
 {
     serial_print("error: Division by zero\n");
     serial_printf("RIP = 0x%lx\n", frame->rip);
