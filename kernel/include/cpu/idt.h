@@ -48,6 +48,10 @@ void idt_set_gate(uint8_t vector, uint64_t handler, uint16_t selector, uint8_t a
 // page faults and overflows, but for simplicity, we'll handle division by error
 // to ensure our IDT and ISRs are set up correctly
 void isr_divide_by_zero(interrupt_frame* frame);
+void isr_invalid_opcode(interrupt_frame* frame);
+void isr_double_fault(interrupt_frame* frame, uint64_t error_code);
+void isr_general_protection_fault(interrupt_frame* frame, uint64_t error_code);
+void isr_page_fault(interrupt_frame* frame, uint64_t error_code);
 void test_divide_by_zero(void);
 
 #endif
