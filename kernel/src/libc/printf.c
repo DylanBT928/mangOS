@@ -196,6 +196,7 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
 
         ++format;
         flags = 0U;
+        n = 1U;
 
         while (n)
         {

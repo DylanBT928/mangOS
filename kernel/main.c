@@ -1,4 +1,5 @@
 #include <kernel.h>
+#include "cpu/idt.h"
 
 // This is our Kernel's main entry point
 // If we rename this function, we have to change the linker script accordingly
@@ -34,6 +35,8 @@ void kmain(void)
 
     terminal_write("Type 'help' to get a list of available commands.\n", WHITE);
     terminal_write("mangOS> ", YELLOW);
+
+    init_idt();
 
     hcf();
 }

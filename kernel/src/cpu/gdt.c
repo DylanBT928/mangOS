@@ -53,5 +53,5 @@ void init_gdt()
     load_gdt(&gdtr);
     load_tss();
 
-    serial_printf("Loaded GDT and TSS successfully.");
+    serial_printf("Loaded GDT and TSS successfully.\n");
 }
