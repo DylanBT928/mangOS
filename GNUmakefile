@@ -77,6 +77,7 @@ override CFLAGS += \
 	-mno-sse \
 	-mno-sse2 \
 	-mno-red-zone \
+	-mgeneral-regs-only \
 	-mcmodel=kernel
 
 # Internal C preproccessor flags
