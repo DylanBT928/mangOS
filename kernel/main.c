@@ -37,7 +37,6 @@ void kmain(void)
     terminal_write("mangOS> ", YELLOW);
 
     init_idt();
-    test_divide_by_zero();
 
     hcf();
 }
